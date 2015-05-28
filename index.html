@@ -1,0 +1,36 @@
+<html>
+<head>
+  <title>Movies</title>
+</head>
+<body>
+
+  <!-- Create a Movie form -->
+  <div>
+    <input type='text' id='movie-name' placeholder="Enter Movie name"></input><br>
+    <input type='textarea' id='movie-desc' placeholder="Enter Movie description"></input><br>
+    <input type='text' id='movie-length' placeholder="Enter Movie length"></input><br>
+
+    <label for='select-movie-rating'>Movie Rating</label>
+    <select id='movie-rating' name='select-movie-rating'>
+      <option value='G'>G</option>
+      <option value='pg'>PG</option>
+      <option value='pg-13'>PG-13</option>
+      <option value='R'>R</option>      
+      <option value='nc-17'>NC-17</option>      
+    </select><br>
+
+    <button id='create-movie'>Create Movie</button>
+  </div>
+
+  <h1>Movies</h1>
+  <ul id='movies'>
+  </ul>
+  <button id='movies-button'>Get Movies</button>
+  <br>
+
+  <div id='current-movie'>
+  </div>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src='movies.js'></script>
+</body>
+</html>
