@@ -3,27 +3,37 @@ var MovieApp = MovieApp || {};
 
 MovieApp.Movielist = (function(){
   // declare variables for DOM elements, mostly they are assigned in the 
-  // initialiaze function
-  var $movieListElement, $getMoviesButton, $currentMovieElement,
+  // initialize function below
+  var $movieListElement, $getMoviesButton,
   moviesURL = 'http://localhost:3000/movies'; // TODO: fix hard-coded URL
 
   // render all movies
   function _render(movies){
+    // clear the list of movies
     $movieListElement.html('');
+
+    // render each movie
     movies.forEach(function(movie_data){
+      // create a movie object from the movie data returned from the 
+      // backend API.
       var movie = new MovieApp.Movie(movie_data.id, movie_data.name, movie_data.desc,
       movie_data.rating, movie_data.length);
+
+      // create the HTML to show the movie's name
       $movieListElement.append(movie.renderName());
     });
   };
 
   // get all movies from the backend and render
   function _getMoviesHandler(event){
+    // make the request to the backend to get ALL the 
+    // movies.
     $.ajax({
       url: moviesURL,
       dataType: 'json'
     })
     .done(function(movies){
+      // render ALL the movies
       _render(movies);
     })
     .fail(function(){
@@ -38,34 +48,17 @@ MovieApp.Movielist = (function(){
     // get the list element that was selected, 
     // this event was bubbled up from the <li> for the movie
     // to the <ul> for the movie list
-    var movieID = event.target.id;  // target is element that received the click
-    // form the URL to get info for a specific movie
-    var movieURL = 'http://localhost:3000/movies/' + movieID;
+    // target is element that received the click
+    var movieID = event.target.id,
+    movie;  
 
-    // Send and Ajax GET request
-    $.ajax({
-      url: movieURL,
-      dataType: 'json'
-    })
-    .done(function(movie_data){
-      var movie = new MovieApp.Movie(movie_data.id, movie_data.name, movie_data.desc,
-      movie_data.rating, movie_data.length);
-
-      $currentMovieElement.html(movie.render());
-    })
-    .fail(function(){
-      var errorMsg = 'Error: Getting Movie data, Accessing the URL' + movieURL;
-      alert(errorMsg);
-      console.log(errorMsg);
-    }); // end of $.ajax
+    // retrieve the movie from the backend and show it
+    MovieApp.Movie.find_and_render(movieID);
   };
 
   // Initializes DOM Elements and Event Handlers.
   // Only public method
-  function initialize(moviesID, getMoviesButtonID, currentMovieID){
-    // div to render a selected movie
-    $currentMovieElement = $(currentMovieID);
-
+  function initialize(moviesID, getMoviesButtonID){
     // ul for list of movies
     $movieListElement = $(moviesID);
 
